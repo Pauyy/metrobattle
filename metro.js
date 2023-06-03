@@ -96,7 +96,7 @@ function updateFaint(action){
 			b.alive[1] = false;
 		} 
 	}
-	console.log(JSON.stringify(action));
+	console.log(action[1], action[2]);
 }
 
 function finishBattle(){
@@ -136,7 +136,7 @@ function handleMessage(data){
 	  } else if(action[1] === "player"){
 		  handlePlayer(action);
 	  } else if(action[1] === "raw"){
-		  console.log(JSON.stringify(action));
+		  console.log(action[2]);
 	  } else if(action[1] === "nametaken") {
 		  console.log(data.toString())
 		  process.exit(-1);
