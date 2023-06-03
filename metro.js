@@ -137,6 +137,9 @@ function handleMessage(data){
 		  handlePlayer(action);
 	  } else if(action[1] === "raw"){
 		  console.log(JSON.stringify(action));
+	  } else if(action[1] === "nametaken") {
+		  console.log(data.toString())
+		  process.exit(-1);
 	  }
 	  if(action[1] !== "request")
 		console.log_f(data.toString()); 
