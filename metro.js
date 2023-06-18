@@ -68,6 +68,8 @@ function login(challstr){
 			answer = answer.substring(1);
 			answer = JSON.parse(answer);
 			ws.send(`|/trn ${username},0,` + answer.assertion);
+			if(process.env.AVATAR != undefined)
+				ws.send(`|/avatar ${process.env.AVATAR}`);
 			console.log("Searching");
 			searchBattle();
 		});
