@@ -121,6 +121,19 @@ function startBattle(action){
 		b.id = Object.keys(j['games']).pop();
 }
 
+function handleChatMessage(action){
+	if(action[2] == `☆${username}`)
+		return;
+	
+	if(["gg", "Gg", "GG", "Ggs", "ggs"].includes(action[3])){
+		ws.send(`${b.id}|wp`)
+	} else if(/^good luck/.test(action[3].toLowerCase()) || action[3].toLowerCase() == "gl"){
+		ws.send(`${b.id}|have fun`)
+	} else if(/^have fun/.test(action[3].toLowerCase()) || action[3].toLowerCase() == "hf"){
+		ws.send(`${b.id}|good luck`)
+	}
+}
+
 function handleMessage(data){
 	action = data.toString().split("|");
 	  if(action[0].substring(0,1) === ">"){
@@ -141,6 +154,8 @@ function handleMessage(data){
 		  console.log(action[2]);
 	  } else if(action[1] === "title"){
 		  console.log(action[2]);
+	  } else if(action[1] === "c"){
+		  handleChatMessage(action);
 	  } else if(action[1] === "nametaken") {
 		  console.log(data.toString())
 		  process.exit(-1);
