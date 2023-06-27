@@ -117,8 +117,10 @@ function handlePlayer(action){
 
 function startBattle(action){
 	const j = JSON.parse(action[2]);
-	if(j.games != null)
+	if(j.games != null){
 		b.id = Object.keys(j['games']).pop();
+		ws.send(`${b.id}|/timer start`);
+	}
 }
 
 function handleChatMessage(action){
