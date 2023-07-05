@@ -1,6 +1,9 @@
 # MetroBattle
-A PokemonShowdown Bot that plays metronome battles.
-Complete traffic is logged to debug.log
+A PokemonShowdown Bot that plays metronome battles.  
+Complete traffic is logged to debug.log  
+and the great thing, all of it just works  
+yes, it works. It, it actually works perfectly.  
+(except when pokemonshowdown restarts)  
 
 ## procedure
 - logs in
