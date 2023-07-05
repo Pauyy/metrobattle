@@ -19,7 +19,18 @@ the entire communication is logged to `debug.log`
 ```bash 
 npm install
 ```  
-rename .env.example to .env and fill in your data
+Configure .env
+```
+rename .env.example .env
+```
+
+## .env
+```
+SHOWDOWNNAME= your_showdown_username
+PASSWORD= your_password
+AVATAR= your_avatar
+TEAM= your_team_in_packed_format
+```
 
 ## usage
 ```bash 
