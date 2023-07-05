@@ -119,8 +119,11 @@ function startBattle(action){
 	const j = JSON.parse(action[2]);
 	if(j.games != null){
 		b.id = Object.keys(j['games']).pop();
-		ws.send(`${b.id}|/timer on`);
 	}
+}
+
+function startTimer(){
+	ws.send(`${b.id}|/timer on`);
 }
 
 function handleChatMessage(action){
@@ -150,6 +153,8 @@ function handleMessage(data){
 		  finishBattle();
 	  } else if(action[1] === "updatesearch"){
 		  startBattle(action);
+	  } else if(action[1] === "init"){
+		  startTimer();
 	  } else if(action[1] === "player"){
 		  handlePlayer(action);
 	  } else if(action[1] === "raw"){
