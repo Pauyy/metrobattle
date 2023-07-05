@@ -5,7 +5,7 @@ const fs = require('fs');
 const util = require('util');
 const log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 console.log_f = function(d) {
-  log_file.write(util.format(d) + '\n');
+	log_file.write(util.format(d) + '\n');
 };
 // etsablish websocket-connection
 const ws = new WebSocket('ws://sim.smogon.com:80/showdown/websocket');
@@ -141,47 +141,47 @@ function handleChatMessage(action){
 
 function handleMessage(data){
 	action = data.toString().split("|");
-	  if(action[0].substring(0,1) === ">"){
-		  b.id = action[0].substring(1);
-	  } else if(action[1] === "challstr"){
+	if(action[0].substring(0,1) === ">"){
+		b.id = action[0].substring(1);
+	} else if(action[1] === "challstr"){
 		login(action[3])
-	  } else if(action[1] === "turn"){
-		  attack();
-	  } else if(action[1] === "faint"){
-		  updateFaint(action);
-	  } else if(action[1] === "win"){
-		  finishBattle();
-	  } else if(action[1] === "updatesearch"){
-		  startBattle(action);
-	  } else if(action[1] === "init"){
-		  startTimer();
-	  } else if(action[1] === "player"){
-		  handlePlayer(action);
-	  } else if(action[1] === "raw"){
-		  console.log(action[2]);
-	  } else if(action[1] === "title"){
-		  console.log(action[2]);
-	  } else if(action[1] === "c"){
-		  handleChatMessage(action);
-	  } else if(action[1] === "nametaken") {
-		  console.log(data.toString())
-		  process.exit(-1);
-	  }
-	  if(action[1] !== "request")
+	} else if(action[1] === "turn"){
+		attack();
+	} else if(action[1] === "faint"){
+		updateFaint(action);
+	} else if(action[1] === "win"){
+		finishBattle();
+	} else if(action[1] === "updatesearch"){
+		startBattle(action);
+	} else if(action[1] === "init"){
+		startTimer();
+	} else if(action[1] === "player"){
+		handlePlayer(action);
+	} else if(action[1] === "raw"){
+		console.log(action[2]);
+	} else if(action[1] === "title"){
+		console.log(action[2]);
+	} else if(action[1] === "c"){
+		handleChatMessage(action);
+	} else if(action[1] === "nametaken") {
+		console.log(data.toString())
+		process.exit(-1);
+	}
+	if(action[1] !== "request")
 		console.log_f(data.toString()); 
 }
 
 // connection established
 ws.on('open', () => {
-  console.log('connection established.');
+	console.log('connection established.');
 });
 
 // got message
 ws.on('message', (data) => {
-    data.toString().split(/\r?\n/).forEach((action) => handleMessage(action));
+	data.toString().split(/\r?\n/).forEach((action) => handleMessage(action));
 });
 
 // connection closed
 ws.on('close', () => {
-  console.log('connection closed.');
+	console.log('connection closed.');
 });
