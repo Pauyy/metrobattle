@@ -33,9 +33,12 @@ rename .env.example .env
 ```
 SHOWDOWNNAME= your_showdown_username
 PASSWORD= your_password
-AVATAR= your_avatar
+AVATAR= your_avatar [optional]
+TERA= 1 or 2 [optional]
 TEAM= your_team_in_packed_format
 ```
+TERA determines which pokemon will be terastallized, the first or the second one  
+Mega-Pokemon can't be terastallized, if you try, the script will silently fail :(  
 
 ## usage
 ```bash 

@@ -13,6 +13,7 @@ const numOfBattles = process.argv[2] == null ? 1 : process.argv[2];
 let numOfBattlesCounter = 0;
 const username = process.env.SHOWDOWNNAME;
 const team = process.env.TEAM;
+const teraPokemon = process.env.TERA
 
 class Battle{
 	playerNumber = "p";
@@ -21,12 +22,14 @@ class Battle{
 		this.playerNumber = "p";
 		this.id = null;
 		this.alive = [true, true];
+		this.tera = false;
 	}
 	reset(){
 		this.alive[0] = true;
 		this.alive[1] = true;
 		this.id = null;
 		this.playerNumber = null;
+		this.tera = false;
 	}
 }
 let b = new Battle();
@@ -84,10 +87,14 @@ function login(challstr){
 }
 
 function attack(){
+	const t1 = !b.tera && teraPokemon == 1 ? "terastallize" : "";
+	const t2 = !b.tera && teraPokemon == 2 ? "terastallize" : "";
 	const pokemon1 = b.alive[0] ? "move 1" : "pass";
 	const pokemon2 = b.alive[1] ? "move 1" : "pass";
-	console.log(`${b.id}|/choose ${pokemon1}, ${pokemon2}`);
-	ws.send(`${b.id}|/choose ${pokemon1}, ${pokemon2}`);
+	console.log(`${b.id}|/choose ${pokemon1} ${t1}, ${pokemon2} ${t2}`);
+	ws.send(`${b.id}|/choose ${pokemon1} ${t1}, ${pokemon2} ${t2}`);
+	if(!b.tera)
+		b.tera = true;
 }
 
 function updateFaint(action){
