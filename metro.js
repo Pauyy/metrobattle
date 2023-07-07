@@ -13,7 +13,8 @@ const numOfBattles = process.argv[2] == null ? 1 : process.argv[2];
 let numOfBattlesCounter = 0;
 const username = process.env.SHOWDOWNNAME;
 const team = process.env.TEAM;
-const teraPokemon = process.env.TERA
+const teraPokemon = process.env.TERA;
+const search = process.env.SEARCH;
 
 class Battle{
 	playerNumber = "p";
@@ -36,7 +37,10 @@ let b = new Battle();
 
 function searchBattle(){
 	ws.send(`|/utm ${team}`);
-	ws.send("|/search gen9metronomebattle");
+	if(search == undefined || search == "ladder")
+		ws.send("|/search gen9metronomebattle");
+	else
+		ws.send(`|/challenge ${search}, gen9metronomebattle`);
 }
 
 function login(challstr){
