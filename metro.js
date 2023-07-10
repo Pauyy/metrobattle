@@ -141,7 +141,7 @@ function startTimer(){
 function handleChatMessage(action){
 	if(action[2] == `☆${username}`)
 		return;
-	const message = chat.anserChatMessage(action[3]);
+	const message = chat.answerChatMessage(action[3]);
 	if(message == "")
 		return;
 	ws.send(`${b.id}|${message}`);
