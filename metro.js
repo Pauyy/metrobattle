@@ -1,4 +1,5 @@
 require('dotenv').config();
+const chat = require('./chat');
 const WebSocket = require('ws');
 const https = require('https');
 const fs = require('fs');
@@ -140,14 +141,10 @@ function startTimer(){
 function handleChatMessage(action){
 	if(action[2] == `☆${username}`)
 		return;
-	
-	if(["gg", "Gg", "GG", "Ggs", "ggs"].includes(action[3])){
-		ws.send(`${b.id}|wp`)
-	} else if(/^good luck/.test(action[3].toLowerCase()) || action[3].toLowerCase() == "gl"){
-		ws.send(`${b.id}|have fun`)
-	} else if(/^have fun/.test(action[3].toLowerCase()) || action[3].toLowerCase() == "hf"){
-		ws.send(`${b.id}|good luck`)
-	}
+	const message = chat.answerChatMessage(action[3]);
+	if(message == "")
+		return;
+	ws.send(`${b.id}|${message}`);
 }
 
 function handleMessage(data){
