@@ -13,9 +13,16 @@ const ws = new WebSocket('ws://sim.smogon.com:80/showdown/websocket');
 const numOfBattles = process.argv[2] == null ? 1 : process.argv[2]; 
 let numOfBattlesCounter = 0;
 const username = process.env.SHOWDOWNNAME;
-const team = process.env.TEAM;
 const teraPokemon = process.env.TERA;
 const search = process.env.SEARCH;
+const team = []
+
+for (const key in process.env) {
+	if (key.startsWith('TEAM_')) {
+		team.push(process.env[key]);
+	}
+}
+
 
 class Battle{
 	playerNumber = "p";
@@ -37,7 +44,7 @@ class Battle{
 let b = new Battle();
 
 function searchBattle(){
-	ws.send(`|/utm ${team}`);
+	ws.send(`|/utm ${team[Math.floor(Math.random() * team.length)]}`);
 	if(search == undefined || search == "ladder")
 		ws.send("|/search gen9metronomebattle");
 	else
