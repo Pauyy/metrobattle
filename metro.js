@@ -130,6 +130,10 @@ function finishBattle(){
 	console.log("Battle " + numOfBattlesCounter + " out of " + numOfBattles);
 	if(numOfBattles > numOfBattlesCounter)
 		searchBattle();
+	else { 
+		console.log("All Battles done");
+		process.exit(0);
+	}
 }
 
 function handlePlayer(action){ 
