@@ -8,6 +8,7 @@ yes, it works. It, it actually works perfectly.
 ## procedure
 - logs in
 - sets avatar (if defined in .env)
+- chooses random team (if more than one is provided)
 - searches for gen9metronomebattle
 - chooses metronome every turn
 - finishes battle
@@ -34,14 +35,16 @@ rename .env.example .env
 SHOWDOWNNAME= your_showdown_username
 PASSWORD= your_password
 AVATAR= your_avatar [optional]
-TERA= 1 or 2 [optional]
-SEARCH= ladder or username [optional]
-TEAM= your_team_in_packed_format
+TERA = 1 or 2 [optional]
+SEARCH = ladder or username [optional]
+TEAM_1 = your_team_in_packed_format
+TEAM_2 = another_team_in_packed_format [optional]
+TEAM_N = any_aother_amount_of_packed_teams [optional]
 ```
 TERA determines which pokemon will be terastallized, the first or the second one  
 Mega-Pokemon can't be terastallized, if you try, the script will silently fail :(  
 SEARCH determines if you will play on the ladder or a private battle against the given username
-
+TEAM_N determines the number of available teams to be selected randomly as used teams for every battle
 ## usage
 ```bash 
 node metro.js <number_of_battle>
