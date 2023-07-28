@@ -17,9 +17,13 @@ const teraPokemon = process.env.TERA;
 const search = process.env.SEARCH;
 const team = []
 
-for (const key in process.env) {
-	if (key.startsWith('TEAM_')) {
-		team.push(process.env[key]);
+if(process.env.TEAM != undefined){
+	team.push(process.env.TEAM);
+} else {
+	for (const key in process.env) {
+		if (key.startsWith('TEAM_')) {
+			team.push(process.env[key]);
+		}
 	}
 }
 
