@@ -185,6 +185,8 @@ function handleMessage(data){
 	} else if(action[1] === "nametaken") {
 		console.log(data.toString())
 		process.exit(-1);
+	} else if(action[1] === "popup") {
+		console.log("\x1b[31m|Showdown Popup|\x1b[0m", action[2]);
 	}
 	if(action[1] !== "request")
 		console.log_f(data.toString()); 
