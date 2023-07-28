@@ -158,6 +158,20 @@ function handleChatMessage(action){
 	ws.send(`${b.id}|${message}`);
 }
 
+function handlePopUp(action){
+	if(/The user .* was not found./.test(action[2])){
+		console.log("\x1b[32m|Metro Hotfix|\x1b[0mRetry sending a request in 10 seconds");
+		setTimeout(searchBattle, 10000);
+	} else if (action[2] == "Your team was rejected for the following reasons:"){
+		console.log("Abort");
+		system.exit(-1);
+	} else if (/You challenged less than 10 seconds after your last challenge!.*/.test(action[2])){
+		console.log("\x1b[32m|Metro Hotfix|\x1b[0mRetry sending a request in 5 seconds");
+		setTimeout(searchBattle, 5000);
+	}
+	
+}
+
 function handleMessage(data){
 	action = data.toString().split("|");
 	if(action[0].substring(0,1) === ">"){
@@ -186,7 +200,8 @@ function handleMessage(data){
 		console.log(data.toString())
 		process.exit(-1);
 	} else if(action[1] === "popup") {
-		console.log("\x1b[31m|Showdown Popup|\x1b[0m", action[2]);
+		console.log("\x1b[31m|Showdown Popup|\x1b[0m", action.slice(2).join());
+		handlePopUp(action)
 	}
 	if(action[1] !== "request")
 		console.log_f(data.toString()); 
