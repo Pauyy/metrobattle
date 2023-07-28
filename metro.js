@@ -168,7 +168,7 @@ function handlePopUp(action){
 		setTimeout(searchBattle, 10000);
 	} else if (action[2] == "Your team was rejected for the following reasons:"){
 		console.log("Abort");
-		system.exit(-1);
+		process.exit(0);
 	} else if (/You challenged less than 10 seconds after your last challenge!.*/.test(action[2])){
 		console.log("\x1b[32m|Metro Hotfix|\x1b[0mRetry sending a request in 5 seconds");
 		setTimeout(searchBattle, 5000);
