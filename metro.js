@@ -13,7 +13,7 @@ const ws = new WebSocket('ws://sim.smogon.com:80/showdown/websocket');
 const numOfBattles = process.argv[2] == null ? 1 : process.argv[2]; 
 let numOfBattlesCounter = 0;
 const username = process.env.SHOWDOWNNAME;
-const teraPokemon = process.env.TERA;
+const pokemon_to_tera = process.env.TERA;
 const search = process.env.SEARCH;
 const team = []
 
@@ -103,8 +103,8 @@ function login(challstr){
 }
 
 function attack(){
-	const t1 = !b.tera && teraPokemon == 1 ? "terastallize" : "";
-	const t2 = !b.tera && teraPokemon == 2 ? "terastallize" : "";
+	const t1 = !b.tera && pokemon_to_tera == 1 ? "terastallize" : "";
+	const t2 = !b.tera && pokemon_to_tera == 2 ? "terastallize" : "";
 	const pokemon1 = b.alive[0] ? "move 1" : "pass";
 	const pokemon2 = b.alive[1] ? "move 1" : "pass";
 	console.log(`${b.id}|/choose ${pokemon1} ${t1}, ${pokemon2} ${t2}`);
