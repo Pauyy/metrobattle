@@ -42,9 +42,9 @@ TEAM_2 = another_team_in_packed_format [optional]
 TEAM_N = any_aother_amount_of_packed_teams [optional]
 ```
 TERA determines which pokemon will be terastallized, the first or the second one  
-Mega-Pokemon can't be terastallized, if you try, the script won't fail anymore :)
-SEARCH determines if you will play on the ladder or a private battle against the given username
-TEAM_N determines the number of available teams to be selected randomly as used teams for every battle
+Mega-Pokemon can't be terastallized, if you try, the script won't fail anymore :)  
+SEARCH determines if you will play on the ladder or a private battle against the given username  
+TEAM_N determines the number of available teams to be selected randomly as used teams for every battle  
 ## usage
 ```bash 
 node metro.js <number_of_battle>
