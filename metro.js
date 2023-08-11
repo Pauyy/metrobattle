@@ -36,13 +36,10 @@ class Battle{
 		this.id = null;
 		this.alive = [true, true];
 		this.tera = false;
-		this.mega = [false, false];
 	}
 	reset(){
 		this.alive[0] = true;
 		this.alive[1] = true;
-		this.mega[0] = false;
-		this.mega[1] = false;
 		this.id = null;
 		this.playerNumber = null;
 		this.tera = false;
@@ -106,8 +103,8 @@ function login(challstr){
 }
 
 function attack(){
-	const t1 = !b.tera && pokemon_to_tera == 1 && !b.mega[0] ? "terastallize" : "";
-	const t2 = !b.tera && pokemon_to_tera == 2 && !b.mega[1] ? "terastallize" : "";
+	const t1 = !b.tera && pokemon_to_tera == 1 ? "terastallize" : "";
+	const t2 = !b.tera && pokemon_to_tera == 2 ? "terastallize" : "";
 	const pokemon1 = b.alive[0] ? "move 1" : "pass";
 	const pokemon2 = b.alive[1] ? "move 1" : "pass";
 	console.log(`${b.id}|/choose ${pokemon1} ${t1}, ${pokemon2} ${t2}`);
@@ -142,17 +139,6 @@ function finishBattle(){
 function handlePlayer(action){ 
 	if(action[3] === `${username}`){
 		b.playerNumber = action[2];
-	}
-}
-
-//When check which pokemon mega pokemon and can't tera
-function handleSwitch(){
-	if(action[2].substring(0,2) === b.playerNumber){
-		if(action[2].substring(2,3) === "a"){
-			b.mega[0] = action[3].includes("-Mega") ? true : false
-		} else {
-			b.mega[1] = action[3].includes("-Mega") ? true : false
-		} 
 	}
 }
 
@@ -217,8 +203,6 @@ function handleMessage(data){
 	} else if(action[1] === "nametaken") {
 		console.log(data.toString())
 		process.exit(-1);
-	} else if (action[1] === "switch") {
-		handleSwitch(action);
 	} else if(action[1] === "popup") {
 		console.log("\x1b[31m|Showdown Popup|\x1b[0m", action.slice(2).join());
 		handlePopUp(action)
