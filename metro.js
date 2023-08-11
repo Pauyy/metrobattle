@@ -176,6 +176,14 @@ function handlePopUp(action){
 	
 }
 
+function handleError(action){
+	if(/[Invalid choice] Can't move: .* can't Terastallize./.test(action[2])){
+		console.log("\x1b[31m|Metro Hotfix|\x1b[0mPretend we terastallized and attack again")
+		b.tera = true;
+		attack();
+	}
+}
+
 function handleMessage(data){
 	action = data.toString().split("|");
 	if(action[0].substring(0,1) === ">"){
@@ -206,6 +214,9 @@ function handleMessage(data){
 	} else if(action[1] === "popup") {
 		console.log("\x1b[31m|Showdown Popup|\x1b[0m", action.slice(2).join());
 		handlePopUp(action)
+	} else if(action[1] === "error"){
+		console.log("\x1b[31m|Showdown Error|\x1b[0m", action.slice(2).join());
+		handleError(action)
 	}
 	if(action[1] !== "request")
 		console.log_f(data.toString()); 
