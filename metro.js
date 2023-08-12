@@ -153,13 +153,13 @@ function startTimer(){
 	ws.send(`${b.id}|/timer on`);
 }
 
-function handleChatMessage(action){
+function handleChatMessage(action, battle_id){
 	if(action[2] == `☆${username}`)
 		return;
 	const message = chat.answerChatMessage(action[3]);
 	if(message == "")
 		return;
-	ws.send(`${b.id}|${message}`);
+	ws.send(`${battle_id}|${message}`);
 }
 
 function handlePopUp(action){
@@ -207,7 +207,7 @@ function handleMessage(data){
 	} else if(action[1] === "title"){
 		console.log(action[2]);
 	} else if(action[1] === "c"){
-		handleChatMessage(action);
+		setTimeout(handleChatMessage, 2500, action, b.id);//wait 2,5 seconds before answering
 	} else if(action[1] === "nametaken") {
 		console.log(data.toString())
 		process.exit(-1);
