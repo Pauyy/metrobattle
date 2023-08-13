@@ -36,6 +36,7 @@ class Battle{
 		this.id = null;
 		this.alive = [true, true];
 		this.tera = false;
+		this.running = false; //is a battle currently running
 	}
 	reset(){
 		this.alive[0] = true;
@@ -43,6 +44,7 @@ class Battle{
 		this.id = null;
 		this.playerNumber = null;
 		this.tera = false;
+		this.running = false;
 	}
 }
 let b = new Battle();
@@ -196,11 +198,12 @@ function handleMessage(data){
 	} else if(action[1] === "faint"){
 		updateFaint(action);
 	} else if(action[1] === "win"){
-		finishBattle();
+		finishBattle(); //finish battle resets battle, wich in turn sets running false
 	} else if(action[1] === "updatesearch"){
 		startBattle(action);
 	} else if(action[1] === "init"){
 		startTimer();
+		b.running = true;
 	} else if(action[1] === "player"){
 		handlePlayer(action);
 	} else if(action[1] === "raw"){
@@ -208,7 +211,7 @@ function handleMessage(data){
 	} else if(action[1] === "title"){
 		console.log(action[2]);
 	} else if(action[1] === "c"){
-		setTimeout(handleChatMessage, 2500, action, b.id);//wait 2,5 seconds before answering
+		setTimeout(handleChatMessage, b.running ? 2500 : 0, action, b.id);//wait 2,5 seconds before answering, except when the battle ended
 	} else if(action[1] === "nametaken") {
 		console.log(data.toString())
 		process.exit(-1);
