@@ -132,7 +132,8 @@ function finishBattle(){
 		searchBattle();
 	else { 
 		console.log("All Battles done");
-		process.exit(0);
+		//Wait 3 Seconds to let the Script finish every message coming after the last win
+		setTimeout(process.exit, 3000, 0);
 	}
 }
 
