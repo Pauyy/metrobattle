@@ -170,14 +170,6 @@ function startTimer(){
 	ws.send(`${b.id}|/timer on`);
 }
 
-function handleChatMessage(action, battle_id){
-	if(action[2] == `☆${username}`)
-		return;
-	const message = chat.answerChatMessage(action[3]);
-	if(message == "")
-		return;
-	ws.send(`${battle_id}|${message}`);
-}
 
 function handlePopUp(action){
 	if(/The user .* was not found./.test(action[2])){
@@ -230,8 +222,6 @@ function handleMessage(data){
 		console.log(action[2]);
 	} else if(action[1] === "title"){
 		console.log(action[2]);
-	} else if(action[1] === "c"){
-		setTimeout(handleChatMessage, b.running ? 2500 : 0, action, b.id);//wait 2,5 seconds before answering, except when the battle ended
 	} else if(action[1] === "nametaken") {
 		console.log(data.toString())
 		process.exit(-1);
