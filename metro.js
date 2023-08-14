@@ -37,6 +37,7 @@ class Battle{
 		this.alive = [true, true];
 		this.tera = false;
 		this.running = false; //is a battle currently running
+		this.team_id = 0;
 	}
 	reset(){
 		this.alive[0] = true;
@@ -45,12 +46,15 @@ class Battle{
 		this.playerNumber = null;
 		this.tera = false;
 		this.running = false;
+		this.team_id = 0;
 	}
 }
 let b = new Battle();
 
 function searchBattle(){
-	ws.send(`|/utm ${team[Math.floor(Math.random() * team.length)]}`);
+	const team_id = Math.floor(Math.random() * team.length);
+	b.team_id = team_id;
+	ws.send(`|/utm ${team[team_id]}`);
 	if(search == undefined || search == "ladder")
 		ws.send("|/search gen9metronomebattle");
 	else
@@ -172,8 +176,14 @@ function handlePopUp(action){
 		console.log("\x1b[32m|Metro Hotfix|\x1b[0mRetry sending a request in 10 seconds");
 		setTimeout(searchBattle, 10000);
 	} else if (action[2] == "Your team was rejected for the following reasons:"){
-		console.log("Abort");
-		process.exit(0);
+		console.log("\x1b[32m|Metro Hotfix|\x1b[0mRemove this Team from the pool of available Teams and try again");
+		team.splice(b.team_id, 1);
+		if(team.length == 0){
+			console.log("\x1b[31m|Metro Error|\x1b[0mNo legal Team remains");
+			console.log("Abort");
+			process.exit(0);
+		}
+		searchBattle();
 	} else if (/You challenged less than 10 seconds after your last challenge!.*/.test(action[2])){
 		console.log("\x1b[32m|Metro Hotfix|\x1b[0mRetry sending a request in 5 seconds");
 		setTimeout(searchBattle, 5000);
