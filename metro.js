@@ -35,6 +35,11 @@ if(process.env.TEAM != undefined){
 	}
 }
 
+if(team.length == 0){
+	console.log("\x1b[31m|Metro Error|\x1b[0mNo Team provided. Check .env File and Readme")
+	process.exit(1);
+}
+
 
 class Battle{
 	playerNumber = "p";
