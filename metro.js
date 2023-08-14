@@ -127,12 +127,14 @@ function updateFaint(action){
 }
 
 function finishBattle(){
+	const bid = b.id;
 	b.reset();
 	numOfBattlesCounter++;
 	console.log("Battle " + numOfBattlesCounter + " out of " + numOfBattles);
-	if(numOfBattles > numOfBattlesCounter)
+	if(numOfBattles > numOfBattlesCounter){
+		setTimeout((bid) => ws.send(`|/leave ${bid}`),10000, bid); //wait 10 secondes before leaving the room
 		searchBattle();
-	else { 
+	} else {
 		console.log("All Battles done");
 		//Wait 3 Seconds to let the Script finish every message coming after the last win
 		setTimeout(process.exit, 3000, 0);
