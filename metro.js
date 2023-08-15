@@ -63,8 +63,8 @@ class Battle{
 }
 let b = new Battle();
 
-const date_ob = new Date();
 function searchBattle(){
+	const date_ob = new Date();
 	if(date_ob.getHours() < 16 && search == "ladder"){
 		setTimeout(searchBattle, 600000);
 		return;
