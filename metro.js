@@ -155,7 +155,7 @@ function finishBattle(){
 	console.log("Battle " + numOfBattlesCounter + " out of " + numOfBattles);
 	if(numOfBattles > numOfBattlesCounter){
 		setTimeout((bid) => ws.send(`|/leave ${bid}`),10000, bid); //wait 10 secondes before leaving the room
-		searchBattle();
+		setTimeout(searchBattle, search == "ladder" ? 300000 : 0);
 	} else {
 		console.log("All Battles done");
 		//Wait 3 Seconds to let the Script finish every message coming after the last win
