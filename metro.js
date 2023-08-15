@@ -63,7 +63,13 @@ class Battle{
 }
 let b = new Battle();
 
+const date_ob = new Date();
 function searchBattle(){
+	if(date_ob.getHours() < 16 && search == "ladder"){
+		setTimeout(searchBattle, 600000);
+		return;
+	}
+
 	const team_id = Math.floor(Math.random() * team.length);
 	b.team_id = team_id;
 	ws.send(`|/utm ${team[team_id]}`);
