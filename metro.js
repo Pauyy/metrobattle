@@ -23,7 +23,7 @@ if(process.env.TEAM != undefined){
 		if (key.startsWith('TEAM_')) {
 			const index = key.lastIndexOf('_') + 1; //last index of _ behind the first one ofcourse
 			const number_of = parseInt(key.substring(index));
-			if(!isNaN(index > 5 && number_of)){ //if index smaller than 5 it got the first _
+			if(!isNaN(number_of) && index > 5){ //if index smaller than 5 it got the first _
 				for(let i = 0; i < number_of; i++){
 					team.push(process.env[key]);
 				}
