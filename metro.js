@@ -1,5 +1,4 @@
 require('dotenv').config();
-const chat = require('./chat');
 const WebSocket = require('ws');
 const https = require('https');
 const fs = require('fs');
