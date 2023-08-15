@@ -13,7 +13,7 @@ const numOfBattles = process.argv[2] == null ? 1 : process.argv[2];
 let numOfBattlesCounter = 0;
 const username = process.env.SHOWDOWNNAME;
 const pokemon_to_tera = process.env.TERA;
-const search = process.env.SEARCH;
+const search = process.env.SEARCH == undefined ? "ladder" : process.env.SEARCH;
 const team = []
 
 if(process.env.TEAM != undefined){
@@ -67,7 +67,7 @@ function searchBattle(){
 	const team_id = Math.floor(Math.random() * team.length);
 	b.team_id = team_id;
 	ws.send(`|/utm ${team[team_id]}`);
-	if(search == undefined || search == "ladder")
+	if(search == "ladder")
 		ws.send("|/search gen9metronomebattle");
 	else
 		ws.send(`|/challenge ${search}, gen9metronomebattle`);
