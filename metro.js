@@ -176,7 +176,7 @@ function updateFaint(action){
 
 function finishBattle(){
 	const bid = b.id;
-	if(!b.priv_challenge){
+	if(b.priv_challenge){
 		deleteBattleById(bid);
 		ws.send(`/leave ${bid}`);
 		return;
