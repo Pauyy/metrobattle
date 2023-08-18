@@ -136,7 +136,7 @@ function attack(){
 	const t2 = !b.tera && pokemon_to_tera == 2 ? "terastallize" : "";
 	const pokemon1 = b.alive[0] ? "move 1" : "pass";
 	const pokemon2 = b.alive[1] ? "move 1" : "pass";
-	console.log(`${b.id}|/choose ${pokemon1} ${t1}, ${pokemon2} ${t2}`);
+	//console.log(`${b.id}|/choose ${pokemon1} ${t1}, ${pokemon2} ${t2}`);
 	ws.send(`${b.id}|/choose ${pokemon1} ${t1}, ${pokemon2} ${t2}`);
 	if(!b.tera)
 		b.tera = true;
