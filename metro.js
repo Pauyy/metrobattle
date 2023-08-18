@@ -63,13 +63,7 @@ class Battle{
 }
 let b = new Battle();
 
-function searchBattle(){
-	const date_ob = new Date();
-	if(date_ob.getHours() < 16 && search == "ladder"){
-		setTimeout(searchBattle, 600000);
-		return;
-	}
-
+function setRandomTeam(){
 	const team_id = Math.floor(Math.random() * team.length);
 	b.team_id = team_id;
 	ws.send(`|/utm ${team[team_id]}`);
@@ -78,6 +72,15 @@ function searchBattle(){
 	const pokemon2 = selected_team[1].substring(0, selected_team[1].indexOf("|"));
 
 	console.log("Next Team: " + pokemon1 + " " + pokemon2);
+}
+
+function searchBattle(){
+	const date_ob = new Date();
+	if(date_ob.getHours() < 16 && search == "ladder"){
+		setTimeout(searchBattle, 600000);
+		return;
+	}
+	setRandomTeam();
 	if(search == "ladder")
 		ws.send("|/search gen9metronomebattle");
 	else
