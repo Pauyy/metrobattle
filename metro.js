@@ -50,6 +50,7 @@ class Battle{
 		this.tera = false;
 		this.running = false; //is a battle currently running
 		this.team_id = 0;
+		this.priv_challenge = false;
 	}
 	reset(){
 		this.alive[0] = true;
@@ -59,6 +60,7 @@ class Battle{
 		this.tera = false;
 		this.running = false;
 		this.team_id = 0;
+		this.priv_challenge = false;
 	}
 }
 let b = new Battle();
@@ -158,8 +160,9 @@ function updateFaint(action){
 
 function finishBattle(){
 	const bid = b.id;
+	if(!b.priv_challenge)
+		numOfBattlesCounter++;
 	b.reset();
-	numOfBattlesCounter++;
 	console.log("Battle " + numOfBattlesCounter + " out of " + numOfBattles);
 	if(numOfBattles > numOfBattlesCounter){
 		setTimeout((bid) => ws.send(`|/leave ${bid}`),10000, bid); //wait 10 secondes before leaving the room
@@ -220,8 +223,13 @@ function handleError(action){
 function handlePrivateMessage(action){
 	//console.log(action);
 	//substring(1) because it has a trailing space
-	if(action[2].substring(1) === username) //if it is a message we send ourself we ignore it
+	if(action[2].substring(1) === username){ //if it is a message we send ourself we ignore it
+		if(/<a href="([^"]+)">/.test(action[4])){//except they contain the battle link
+			console.log("set game true")
+			b.priv_challenge = true;
+		}
 		return;
+	}
 
 	if(action[4].startsWith("/challenge")) {
 		if(action[4].substring(11) === "gen9metronomebattle"){
