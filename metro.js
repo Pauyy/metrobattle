@@ -217,6 +217,24 @@ function handleError(action){
 	}
 }
 
+function handlePrivateMessage(action){
+	//console.log(action);
+	//substring(1) because it has a trailing space
+	if(action[2].substring(1) === username) //if it is a message we send ourself we ignore it
+		return;
+
+	if(action[4].startsWith("/challenge")) {
+		if(action[4].substring(11) === "gen9metronomebattle"){
+			setRandomTeam();
+			ws.send(`|/accept ${action[2]}`);
+		} else {
+			ws.send(`|/pm ${action[2]}, Sorry, I only play gen9metronomebattle`)
+			ws.send(`|/reject ${action[2]}`)
+		}
+	}
+
+}
+
 function handleMessage(data){
 	action = data.toString().split("|");
 	if(action[0].substring(0,1) === ">"){
@@ -249,6 +267,8 @@ function handleMessage(data){
 	} else if(action[1] === "error"){
 		console.log("\x1b[31m|Showdown Error|\x1b[0m", action.slice(2).join());
 		handleError(action)
+	} else if(action[1] === "pm"){
+		handlePrivateMessage(action);
 	}
 	if(action[1] !== "request")
 		console.log_f(data.toString()); 
