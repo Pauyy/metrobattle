@@ -73,6 +73,11 @@ function searchBattle(){
 	const team_id = Math.floor(Math.random() * team.length);
 	b.team_id = team_id;
 	ws.send(`|/utm ${team[team_id]}`);
+	const selected_team = team[team_id].split("]");
+	const pokemon1 = selected_team[0].substring(0, selected_team[0].indexOf("|"));
+	const pokemon2 = selected_team[1].substring(0, selected_team[1].indexOf("|"));
+
+	console.log("Next Team: " + pokemon1 + " " + pokemon2);
 	if(search == "ladder")
 		ws.send("|/search gen9metronomebattle");
 	else
