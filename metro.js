@@ -216,7 +216,7 @@ function handlePopUp(action){
 		}
 		searchBattle();
 	} else if (/You challenged less than 10 seconds after your last challenge!.*/.test(action[2])){
-		console.log("\x1b[31m|Metro Hotfix|\x1b[0mRetry sending a request in 5 seconds");
+		console.log("\x1b[32m|Metro Hotfix|\x1b[0mRetry sending a request in 5 seconds");
 		setTimeout(searchBattle, 5000);
 	}
 	
@@ -224,7 +224,7 @@ function handlePopUp(action){
 
 function handleError(action){
 	if(/[Invalid choice] Can't move: .* can't Terastallize./.test(action[2])){
-		console.log("\x1b[31m|Metro Hotfix|\x1b[0mPretend we terastallized and attack again")
+		console.log("\x1b[32m|Metro Hotfix|\x1b[0mPretend we terastallized and attack again")
 		b.tera = true;
 		attack();
 	}
