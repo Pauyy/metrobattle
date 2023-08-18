@@ -176,12 +176,15 @@ function updateFaint(action){
 
 function finishBattle(){
 	const bid = b.id;
-	if(!b.priv_challenge)
-		numOfBattlesCounter++;
-	deleteBattleById(bid);
+	if(!b.priv_challenge){
+		deleteBattleById(bid);
+		ws.send(`/leave ${bid}`);
+		return;
+	}
+	numOfBattlesCounter++;
 	console.log("Battle " + numOfBattlesCounter + " out of " + numOfBattles);
 	if(numOfBattles > numOfBattlesCounter){
-		setTimeout((bid) => ws.send(`|/leave ${bid}`),10000, bid); //wait 10 secondes before leaving the room
+		setTimeout((bid) => {ws.send(`|/leave ${bid}`); deleteBattleById(bid);},10000, bid); //wait 10 secondes before leaving the room
 		setTimeout(searchBattle, search == "ladder" ? 300000 : 0);
 	} else {
 		console.log("All Battles done");
