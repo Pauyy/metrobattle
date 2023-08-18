@@ -63,7 +63,23 @@ class Battle{
 		this.priv_challenge = false;
 	}
 }
+const ongoing_battles = {};
 let b = new Battle();
+
+function deleteBattleById(id){
+	ongoing_battles[id] = null;
+}
+
+function getBattleById(id){
+	const battle = ongoing_battles[id];
+	if(battle == undefined){
+		//console.log("Battle", id, "created");
+		ongoing_battles[id] = new Battle();
+		ongoing_battles[id].id = id;
+		return ongoing_battles[id];
+	}
+	return battle;
+}
 
 function setRandomTeam(){
 	const team_id = Math.floor(Math.random() * team.length);
@@ -162,7 +178,7 @@ function finishBattle(){
 	const bid = b.id;
 	if(!b.priv_challenge)
 		numOfBattlesCounter++;
-	b.reset();
+	deleteBattleById(bid);
 	console.log("Battle " + numOfBattlesCounter + " out of " + numOfBattles);
 	if(numOfBattles > numOfBattlesCounter){
 		setTimeout((bid) => ws.send(`|/leave ${bid}`),10000, bid); //wait 10 secondes before leaving the room
@@ -220,7 +236,7 @@ function handlePrivateMessage(action){
 	if(action[2].substring(1) === username){ //if it is a message we send ourself we ignore it
 		if(/<a href="([^"]+)">/.test(action[4])){//except they contain the battle link
 			console.log("set game true")
-			b.priv_challenge = true;
+			getBattleById(action[4].match(/<a href="([^"]+)">/)[1].substring(1)).priv_challenge = true;
 		}
 		return;
 	}
@@ -240,7 +256,7 @@ function handlePrivateMessage(action){
 function handleMessage(data){
 	action = data.toString().split("|");
 	if(action[0].substring(0,1) === ">"){
-		b.id = action[0].substring(1);
+		b = getBattleById(action[0].substring(1));
 	} else if(action[1] === "challstr"){
 		login(action[3])
 	} else if(action[1] === "turn"){
