@@ -78,7 +78,6 @@ let b = new Battle();
 function deleteBattleById(id){
 	//console.log("Finished battle", id);
 	delete ongoing_battles[id];
-	b = null;
 }
 
 function getBattleById(id){
