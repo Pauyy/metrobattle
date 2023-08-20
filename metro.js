@@ -16,6 +16,15 @@ const pokemon_to_tera = process.env.TERA;
 const search = process.env.SEARCH == undefined ? "ladder" : process.env.SEARCH;
 const team = []
 
+if(process.env.PASSWORD == undefined || process.env.PASSWORD == ""){
+	console.log("\x1b[31m|Metro Error|\x1b[0mNo Password provided. Check .env File and Readme")
+	process.exit(-1);
+}
+if(username == undefined || username == ""){
+	console.log("\x1b[31m|Metro Error|\x1b[0mNo Username provided. Check .env File and Readme")
+	process.exit(-1);
+}
+
 if(process.env.TEAM != undefined){
 	team.push(process.env.TEAM);
 } else {
@@ -279,7 +288,8 @@ function handleMessage(data){
 	} else if(action[1] === "title"){
 		console.log(action[2]);
 	} else if(action[1] === "nametaken") {
-		console.log(data.toString())
+		console.log(data.toString());
+		console.log("Is your password correct?");
 		process.exit(-1);
 	} else if(action[1] === "popup") {
 		console.log("\x1b[31m|Showdown Popup|\x1b[0m", action.slice(2).join());
