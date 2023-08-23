@@ -17,7 +17,7 @@ yes, it works. It, it actually works perfectly.
 ## output
 Every* message the script recives is logged to a file called `debug.log`  
 successful login and WebSocket connection as well as first search are printed to stdout  
-the start and end of the battle, chosen moves and faints are also printed to stdout  
+the start and end of the battle and faints are also printed to stdout  
   
 *There are messages prefixed "request", they are ignored  
 
