@@ -9,7 +9,27 @@ console.log_f = function(d) {
 };
 // etsablish websocket-connection
 const ws = new WebSocket('ws://sim.smogon.com:80/showdown/websocket');
-const numOfBattles = process.argv[2] == null ? 1 : process.argv[2]; 
+
+const usage = "node metro.js <num_off_battle<int>> -v\n -v verbose level, more v, mover verbose -vvvv"
+
+
+let b_num = 1;
+let v_lvl = 0;
+for(let i = 2; i < process.argv.length; i++){
+	if(process.argv[i].startsWith("-")){
+		const arr = process.argv[i].substring(1).split("");
+		arr.forEach((e) => {if(e != "v") {console.log("Invalid Parameters\nusage:\n" + usage); process.exit(-1);}})
+		v_lvl = arr.length;
+	} else {
+		b_num = parseInt(process.argv[i]);
+		if(isNaN(b_num)){
+			b_num = 1;
+		}
+	}
+}
+const verbose_level = v_lvl;
+const numOfBattles = b_num;
+
 let numOfBattlesCounter = 0;
 const username = process.env.SHOWDOWNNAME;
 const pokemon_to_tera = process.env.TERA;
@@ -75,15 +95,23 @@ class Battle{
 const ongoing_battles = {};
 let b = new Battle();
 
+function verbose_log(level){
+	if(verbose_level >= level){
+		var args = Array.prototype.slice.call(arguments);
+		args.splice(0,1);
+		console.log.apply(console, args);
+	}
+}
+
 function deleteBattleById(id){
-	//console.log("Finished battle", id);
+	verbose_log(2, "Finished battle", id);
 	delete ongoing_battles[id];
 }
 
 function getBattleById(id){
 	const battle = ongoing_battles[id];
 	if(battle == undefined){
-		//console.log("Battle", id, "created");
+		verbose_log(2, "Battle", id, "created");
 		ongoing_battles[id] = new Battle();
 		ongoing_battles[id].id = id;
 		return ongoing_battles[id];
@@ -167,7 +195,7 @@ function attack(){
 	const t2 = !b.tera && pokemon_to_tera == 2 ? "terastallize" : "";
 	const pokemon1 = b.alive[0] ? "move 1" : "pass";
 	const pokemon2 = b.alive[1] ? "move 1" : "pass";
-	//console.log(`${b.id}|/choose ${pokemon1} ${t1}, ${pokemon2} ${t2}`);
+	verbose_log(3, `${b.id}|/choose ${pokemon1} ${t1}, ${pokemon2} ${t2}`);
 	ws.send(`${b.id}|/choose ${pokemon1} ${t1}, ${pokemon2} ${t2}`);
 	if(!b.tera)
 		b.tera = true;
@@ -242,8 +270,9 @@ function handleError(action){
 	}
 }
 
+
 function handlePrivateMessage(action){
-	//console.log(action);
+	verbose_log(4, "Private Message:", action);
 	//substring(1) because it has a trailing space
 	if(action[2].substring(1) === username){ //if it is a message we send ourself we ignore it
 		if(/<a href="([^"]+)">/.test(action[4])){//except they contain the battle link
