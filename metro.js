@@ -257,6 +257,13 @@ function handlePrivateMessage(action){
 		}
 		return;
 	}
+
+	if(action[2].substring(1) === search && /\/nonotify .* rejected the challenge./.test(action[4])){
+		console.log("\x1b[31m|Metro Error|\x1b[0m" + search + " rejected the challenge");
+		console.log("\x1b[32m|Metro Hotfix|\x1b[0mSend a challenge again in 10 seconds in case that it was a missinput");
+		setTimeout(searchBattle, 10000);
+	}
+
 	//accepting or challenging sends a plain "challenge" for some reason. If it is just that we don't care
 	if(action[4].startsWith("/challenge") && action[4] !== "/challenge") {
 		if(action[4].substring(11) === "gen9metronomebattle"){
