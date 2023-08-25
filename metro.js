@@ -14,6 +14,7 @@ let numOfBattlesCounter = 0;
 const username = process.env.SHOWDOWNNAME;
 const pokemon_to_tera = process.env.TERA;
 const search = process.env.SEARCH == undefined ? "ladder" : process.env.SEARCH;
+const ps_status = process.env.STATUS;
 const team = []
 
 if(process.env.PASSWORD == undefined || process.env.PASSWORD == ""){
@@ -147,6 +148,11 @@ function login(challstr){
 			answer = answer.substring(1);
 			answer = JSON.parse(answer);
 			ws.send(`|/trn ${username},0,` + answer.assertion);
+			if(ps_status == undefined || ps_status == "")
+				ws.send(`|/pm ${username}, /clearstatus`);
+			else
+				ws.send(`|/pm ${username}, /status ${ps_status}`);
+
 			if(process.env.AVATAR != undefined)
 				ws.send(`|/avatar ${process.env.AVATAR}`);
 			console.log("Searching");
