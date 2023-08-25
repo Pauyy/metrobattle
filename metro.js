@@ -248,6 +248,7 @@ function handleError(action){
 	}
 }
 
+let re_challenge_counter = -1;
 function handlePrivateMessage(action){
 	//console.log(action);
 	//substring(1) because it has a trailing space
@@ -260,8 +261,17 @@ function handlePrivateMessage(action){
 
 	if(action[2].substring(1) === search && /\/nonotify .* rejected the challenge./.test(action[4])){
 		console.log("\x1b[31m|Metro Error|\x1b[0m" + search + " rejected the challenge");
-		console.log("\x1b[32m|Metro Hotfix|\x1b[0mSend a challenge again in 10 seconds in case that it was a missinput");
-		setTimeout(searchBattle, 10000);
+		re_challenge_counter++;
+		if(re_challenge_counter == 0){
+			console.log("\x1b[32m|Metro Hotfix|\x1b[0mSend a challenge again in 10 seconds in case that it was a missinput");
+			setTimeout(searchBattle, 10000);
+		} else if(re_challenge_counter == 1){
+			console.log("\x1b[32m|Metro Hotfix|\x1b[0mSend a last challenge in 10 seconds, after that, stop to not annoy them");
+			setTimeout(searchBattle, 10000);
+		} else {
+			console.log("\x1b[32m|Metro|\x1b[0mChallenger does not want to play anymore, stop execution");
+			process.exit(0);
+		}
 	}
 
 	//accepting or challenging sends a plain "challenge" for some reason. If it is just that we don't care
