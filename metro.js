@@ -4,9 +4,15 @@ const https = require('https');
 const fs = require('fs');
 const util = require('util');
 const log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
+const info_file = fs.createWriteStream(__dirname + '/info.log', {flags : 'a'});
 console.log_f = function(d) {
 	log_file.write(util.format(d) + '\n');
 };
+
+console.log_info = function(d) {
+	info_file.write(util.format(d) + '\n');
+};
+
 // etsablish websocket-connection
 const ws = new WebSocket('ws://sim.smogon.com:80/showdown/websocket');
 const numOfBattles = process.argv[2] == null ? 1 : process.argv[2]; 
@@ -308,6 +314,8 @@ function handleMessage(data){
 		console.log(action[2]);
 	} else if(action[1] === "title"){
 		console.log(action[2]);
+	} else if(action[1] === "c"){
+		console.log_info(data.toString());
 	} else if(action[1] === "nametaken") {
 		console.log(data.toString());
 		console.log("Is your password correct?");
