@@ -7,13 +7,14 @@ yes, it works. It, it actually works perfectly.
 
 ## procedure
 - logs in
+- sets status (if defined in .env, otherwise clears it)
 - sets avatar (if defined in .env)
 - chooses random team (if more than one is provided)
-- searches for gen9metronomebattle
+- searches for gen9metronomebattle (default)
+- terastallize pokemon (if defined in .env)
 - chooses metronome every turn
-- finishes battle
+- finishes battle and leaves room (after 10 seconds)
 - repeats until passed number of battles were played
-
 ## output
 Every* message the script recives is logged to a file called `debug.log`  
 Every chat message and private message is logged to a file called `info.log`  
