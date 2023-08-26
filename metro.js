@@ -282,7 +282,8 @@ function handlePrivateMessage(action){
 
 	//accepting or challenging sends a plain "challenge" for some reason. If it is just that we don't care
 	if(action[4].startsWith("/challenge") && action[4] !== "/challenge") {
-		if(action[4].substring(11) === "gen9metronomebattle"){
+		console.log_info("|" + action[1] + "|" + action[2] + "|" + action[4]);
+		if(action[4].substring(11) === "gen9metronomebattle"){//if it is a gen9metronome challenge we accept
 			setRandomTeam();
 			ws.send(`|/accept ${action[2]}`);
 		} else {
