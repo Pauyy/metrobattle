@@ -292,7 +292,7 @@ function handlePrivateMessage(action){
 		}
 	}
 
-	if(action[3].substring(1) == username){
+	if(action[3].substring(1) == username && !action[4].startsWith("/challenge")){
 		console.log_info("|" + action[1] + "|"  + action[2] + "|" + action[4]);
 	}
 }
