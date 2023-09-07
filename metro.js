@@ -282,7 +282,7 @@ function handlePrivateMessage(action){
 
 	//accepting or challenging sends a plain "challenge" for some reason. If it is just that we don't care
 	if(action[4].startsWith("/challenge") && action[4] !== "/challenge") {
-		console.log_info("|" + new Date().toLocaleString() + "|" + (b != null && b.id != null ? b.id.substring(29) : "") + "|" + action[1] + "|" + action[2] + "|" + action.slice(4).join("|"));
+		console.log_info("|" + action[1] + "|" + action[2] + "|" + action[4]);
 		if(action[4].substring(11) === "gen9metronomebattle"){//if it is a gen9metronome challenge we accept
 			setRandomTeam();
 			ws.send(`|/accept ${action[2]}`);
@@ -293,7 +293,7 @@ function handlePrivateMessage(action){
 	}
 
 	if(action[3].substring(1) == username && !action[4].startsWith("/challenge")){
-		console.log_info("|" + new Date().toLocaleString() + "|" + (b != null && b.id != null ? b.id.substring(29) : "") + "|" + action[1] + "|"  + action[2] + "|" + action.slice(4).join("|"));
+		console.log_info("|" + action[1] + "|"  + action[2] + "|" + action[4]);
 	}
 }
 
@@ -319,7 +319,7 @@ function handleMessage(data){
 	} else if(action[1] === "title"){
 		console.log(action[2]);
 	} else if(action[1] === "c"){
-		console.log_info("|" + new Date().toLocaleString() + "|" + (b != null && b.id != null ? b.id.substring(29) : "") + data.toString());
+		console.log_info(data.toString());
 	} else if(action[1] === "nametaken") {
 		console.log(data.toString());
 		console.log("Is your password correct?");
