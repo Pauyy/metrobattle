@@ -352,4 +352,5 @@ ws.on('message', (data) => {
 // connection closed
 ws.on('close', () => {
 	console.log('connection closed.');
+	process.exit(0);
 });
