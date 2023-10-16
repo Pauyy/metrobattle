@@ -13,9 +13,26 @@ console.log_info = function(d) {
 	info_file.write(util.format(d) + '\n');
 };
 
+function parseArgument(){
+	if (process.argv[2] == null)
+		return 1;
+	const arg = process.argv[2];
+	if(arg == "-p" || arg == "--passive")
+		return 0;
+
+	for(let i = 0; i < arg.length; i++){
+		if(isNaN(arg[i] - '0') || arg[i] - '0' < 0 || arg[i] - '0' > 9){
+			console.log("\x1b[31m|Metro Error|\x1b[0mInvalid Number");
+			console.log("\x1b[32m|Metro Hotfix|\x1b[0mAssume passive play");
+			return 0;
+		}
+	}
+	return arg;
+}
+
 // etsablish websocket-connection
 const ws = new WebSocket('ws://sim.smogon.com:80/showdown/websocket');
-const numOfBattles = process.argv[2] == null ? 1 : process.argv[2]; 
+const numOfBattles = parseArgument();
 let numOfBattlesCounter = 0;
 const username = process.env.SHOWDOWNNAME;
 const pokemon_to_tera = process.env.TERA;
@@ -161,8 +178,8 @@ function login(challstr){
 
 			if(process.env.AVATAR != undefined)
 				ws.send(`|/avatar ${process.env.AVATAR}`);
-			console.log("Searching");
-			searchBattle();
+			if(numOfBattles)
+				searchBattle();
 		});
 	});
 	
