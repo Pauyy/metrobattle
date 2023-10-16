@@ -49,6 +49,9 @@ SEARCH determines if you will play on the ladder or a private battle against the
 TEAM_N determines the number of available teams to be selected randomly as used teams for every battle  
 If you want a team to be represented more than once you can add '_M' where M is the number of times this team will be represented  
 ## usage
+The bot can ladder, challenge specific trainers or just wait for challenges.  
+To play on the ladder or challenge specific trainer modify `.env`  
+To wait for challenges pass -p or --passiv (or a non numeric value) as an argument.  
 ```bash 
-node metro.js <number_of_battle>
+node metro.js [number_of_battle | -p --passiv]
 ```
