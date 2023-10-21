@@ -38,6 +38,8 @@ const username = process.env.SHOWDOWNNAME;
 const pokemon_to_tera = process.env.TERA;
 const search = process.env.SEARCH == undefined ? "ladder" : process.env.SEARCH;
 const ps_status = process.env.STATUS;
+const private_challenge = process.env.PRIVATE_CHALLENGE == undefined ? "ignore" : process.env.PRIVATE_CHALLENGE;
+const private_challenge_reject_message = process.env.PRIVATE_CHALLENGE_REJECT_MESSAGE;
 const team = []
 
 if(process.env.PASSWORD == undefined || process.env.PASSWORD == ""){
@@ -260,7 +262,7 @@ function handlePopUp(action){
 		console.log("\x1b[32m|Metro Hotfix|\x1b[0mRetry sending a request in 5 seconds");
 		setTimeout(searchBattle, 5000);
 	}
-	
+
 }
 
 function handleError(action){
@@ -300,6 +302,16 @@ function handlePrivateMessage(action){
 	//accepting or challenging sends a plain "challenge" for some reason. If it is just that we don't care
 	if(action[4].startsWith("/challenge") && action[4] !== "/challenge") {
 		console.log_info("|" + action[1] + "|" + action[2] + "|" + action.slice(4).join("|"));
+		//check if private challenges are allowed to be accepted
+		if(private_challenge === "ignore")
+			return;
+		if(private_challenge === "reject"){
+			if(private_challenge_reject_message != undefined)
+				ws.send(`|/pm ${action[2]}, ${private_challenge_reject_message}`);
+			ws.send(`|/reject ${action[2]}`);
+			return;
+		}
+
 		if(action[4].substring(11) === "gen9metronomebattle"){//if it is a gen9metronome challenge we accept
 			setRandomTeam();
 			ws.send(`|/accept ${action[2]}`);
