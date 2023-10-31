@@ -5,6 +5,7 @@ const fs = require('fs');
 const util = require('util');
 const log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 const info_file = fs.createWriteStream(__dirname + '/info.log', {flags : 'a'});
+const psa_file = fs.createWriteStream(__dirname + '/psa.log', {flags : 'a'});
 console.log_f = function(d) {
 	log_file.write(util.format(d) + '\n');
 };
@@ -12,6 +13,10 @@ console.log_f = function(d) {
 console.log_info = function(d) {
 	info_file.write(util.format(d) + '\n');
 };
+
+console.log_psa = function(d) {
+	psa_file.write(util.format(d) + '\n');
+}
 
 function parseArgument(){
 	if (process.argv[2] == null)
@@ -30,6 +35,14 @@ function parseArgument(){
 	return arg;
 }
 
+function load_psa(){
+	if (!fs.existsSync(__dirname + '/psa.log')) return {};
+	const data = fs.readFileSync(__dirname + '/psa.log', 'utf8');
+	const names = data.split(/\r?\n/);
+	const usernames = names.reduce((a, v) => ({ ...a, [v]: 1}), {})
+	return usernames;
+}
+
 // etsablish websocket-connection
 const ws = new WebSocket('ws://sim.smogon.com:80/showdown/websocket');
 const numOfBattles = parseArgument();
@@ -40,7 +53,9 @@ const search = process.env.SEARCH == undefined ? "ladder" : process.env.SEARCH;
 const ps_status = process.env.STATUS;
 const private_challenge = process.env.PRIVATE_CHALLENGE == undefined ? "ignore" : process.env.PRIVATE_CHALLENGE;
 const private_challenge_reject_message = process.env.PRIVATE_CHALLENGE_REJECT_MESSAGE;
-const team = []
+const team = [];
+const psa = load_psa();
+const psa_message = process.env.PSA;
 
 if(process.env.PASSWORD == undefined || process.env.PASSWORD == ""){
 	console.log("\x1b[31m|Metro Error|\x1b[0mNo Password provided. Check .env File and Readme")
@@ -236,6 +251,10 @@ function finishBattle(){
 function handlePlayer(action){ 
 	if(action[3] === `${username}`){
 		b.playerNumber = action[2];
+	} else if (psa_message != undefined && psa[action[3]] === undefined) {
+		console.log_psa(action[3]);
+		psa[action[3]] = 1;
+		ws.send(`${b.id}|${psa_message}`);
 	}
 }
 
