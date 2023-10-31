@@ -292,6 +292,11 @@ function handleError(action){
 	}
 }
 
+function handleChatMessage(message){
+	if(message[2].substring(1) !== username)
+		console.log_info(message.join("|"));
+}
+
 let re_challenge_counter = -1;
 function handlePrivateMessage(action){
 	//console.log(action);
@@ -367,7 +372,7 @@ function handleMessage(data){
 	} else if(action[1] === "title"){
 		console.log(action[2]);
 	} else if(action[1] === "c"){
-		console.log_info(data.toString());
+		handleChatMessage(action);
 	} else if(action[1] === "nametaken") {
 		console.log(data.toString());
 		console.log("Is your password correct?");
