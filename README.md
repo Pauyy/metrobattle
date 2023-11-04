@@ -24,15 +24,43 @@ the start and end of the battle and faints are also printed to stdout
 *There are messages prefixed "request", they are ignored  
 
 ## Setup
+Install the required libraries with
 ```bash 
 npm install
 ```  
-Configure .env
+Configure the .env file
+Available templates
+1. .env.example.min
+2. .env.example.med
+3. .env.example.full
+
+### .env.example.min
+Contains the absolute minimum of settings 
 ```
-rename .env.example .env
+SHOWDOWNNAME= your_showdown_username
+PASSWORD= your_password
+TEAM_1 = your_team_in_packed_format
 ```
 
-## .env
+### .env.example.med
+Contains meaningfull bonus settings to make the bot work better
+```
+SHOWDOWNNAME= your_showdown_username
+PASSWORD= your_password
+TERA = 1 or 2 [optional]
+SEARCH = ladder or username [optional]
+PRIVATE_CHALLENGE= reject or ignore or accept [optional]
+TEAM_1 = your_team_in_packed_format
+TEAM_2 = another_team_in_packed_format [optional]
+TEAM_N = any_other_amount_of_packed_teams [optional]
+```
+TERA determines which pokemon will be terastallized, the first or the second one  
+SEARCH determines if you will play on the ladder or a private battle against the given username  
+PRIVATE_CHALLENGE determines if the bot will accept gen9metronome battle requests  
+TEAM_N pool of teams where one gets randomly selected, every battle a new one will be selected  
+
+### .env.example.full
+Contains every setting available
 ```
 SHOWDOWNNAME= your_showdown_username
 PASSWORD= your_password
@@ -47,12 +75,32 @@ TEAM_1 = your_team_in_packed_format
 TEAM_2 = another_team_in_packed_format [optional]
 TEAM_N = any_other_amount_of_packed_teams [optional]
 ```
-TERA determines which pokemon will be terastallized, the first or the second one  
-SEARCH determines if you will play on the ladder or a private battle against the given username  
 PSA determines if the bot will send a chat message if the opposing trainer has not been seen before. If psa is blank no message will be sent and no players will be marked as seen    
-PRIVATE_CHALLENGE determines if the bot will accept gen9metronome battle requests [defaults to ignore]  
-TEAM_N determines the number of available teams to be selected randomly as used teams for every battle  
+PRIVATE_CHALLENGE_REJECT_MESSAGE will be sent after rejecting a challenge because of PRIVATE_CHALLENGE= reject  
+
+### advanced .env settings
 If you want a team to be represented more than once you can add '_M' where M is the number of times this team will be represented  
+```
+TEAM_1 = your_team_in_packed_format
+TEAM_2_3 = another_team_in_packed_format
+```
+there will be a 3/4 chance of selecting TEAM_2
+
+### Overview
+|key|value|
+|-|-|
+|SHOWDOWNNAME|pokemon showdown username|
+|PASSWORD|pokemon showdown password|
+|TERA| which pokemon will be terastallized, the first or the second one  |
+|AVATAR| number or name of the avatar|
+|STATUS| status that is shown on your playercard|
+|SEARCH| search on the ladder or a private battle against the given username  |
+|PRIVATE_CHALLENGE| will the bot accept gen9metronome battle requests  |
+|TEAM_N| a team that will be used  |
+|PSA| String to send in chat on the first ever battle between you and the other trainer|
+|PRIVATE_CHALLENGE| reject or ignore or accept a private challenge|
+|PRIVATE_CHALLENGE_REJECT_MESSAGE| message sent when private challenges are rejected|
+
 ## usage
 The bot can ladder, challenge specific trainers or just wait for challenges.  
 To play on the ladder or challenge specific trainer modify `.env`  
