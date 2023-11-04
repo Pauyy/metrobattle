@@ -3,6 +3,7 @@ const WebSocket = require('ws');
 const https = require('https');
 const fs = require('fs');
 const util = require('util');
+const ReconnectingWebSocket = require('reconnecting-websocket');
 const log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'a'});
 const info_file = fs.createWriteStream(__dirname + '/info.log', {flags : 'a'});
 const psa_file = fs.createWriteStream(__dirname + '/psa.log', {flags : 'a'});
@@ -43,8 +44,12 @@ function load_psa(){
 	return usernames;
 }
 
-// etsablish websocket-connection
-const ws = new WebSocket('ws://sim.smogon.com:80/showdown/websocket');
+const options = {
+    WebSocket: WebSocket,
+    connectionTimeout: 10000,
+    maxRetries: 100
+};
+const ws = new ReconnectingWebSocket('ws://sim.smogon.com:80/showdown/websocket', [], options);
 const numOfBattles = parseArgument();
 let numOfBattlesCounter = 0;
 const username = process.env.SHOWDOWNNAME;
@@ -393,17 +398,17 @@ function handleMessage(data){
 }
 
 // connection established
-ws.on('open', () => {
+ws.addEventListener('open', () => {
 	console.log('connection established.');
 });
 
 // got message
-ws.on('message', (data) => {
-	data.toString().split(/\r?\n/).forEach((action) => handleMessage(action));
+ws.addEventListener('message', (data) => {
+	data.data.toString().split(/\r?\n/).forEach((action) => handleMessage(action));
 });
 
 // connection closed
-ws.on('close', () => {
+ws.addEventListener('close', () => {
 	console.log('connection closed.');
 	process.exit(0);
 });
