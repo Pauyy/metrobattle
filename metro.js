@@ -47,7 +47,8 @@ function load_psa(){
 const options = {
     WebSocket: WebSocket,
     connectionTimeout: 10000,
-    maxRetries: 100
+    maxRetries: 100,
+	debug: process.env.DEBUG || false
 };
 const ws = new ReconnectingWebSocket('ws://sim.smogon.com:80/showdown/websocket', [], options);
 const numOfBattles = parseArgument();
