@@ -55,7 +55,7 @@ const numOfBattles = parseArgument();
 let numOfBattlesCounter = 0;
 const username = process.env.SHOWDOWNNAME;
 const pokemon_to_tera = process.env.TERA;
-const search = process.env.SEARCH == undefined ? "ladder" : process.env.SEARCH;
+const search = process.env.SEARCH || "ladder";
 const ps_status = process.env.STATUS;
 const private_challenge = process.env.PRIVATE_CHALLENGE == undefined ? "ignore" : process.env.PRIVATE_CHALLENGE;
 const private_challenge_reject_message = process.env.PRIVATE_CHALLENGE_REJECT_MESSAGE;
@@ -63,11 +63,11 @@ const team = [];
 const psa = load_psa();
 const psa_message = process.env.PSA;
 
-if(process.env.PASSWORD == undefined || process.env.PASSWORD == ""){
+if(!process.env.PASSWORD){
 	console.log("\x1b[31m|Metro Error|\x1b[0mNo Password provided. Check .env File and Readme")
 	process.exit(-1);
 }
-if(username == undefined || username == ""){
+if(!username){
 	console.log("\x1b[31m|Metro Error|\x1b[0mNo Username provided. Check .env File and Readme")
 	process.exit(-1);
 }
