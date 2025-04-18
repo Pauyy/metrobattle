@@ -50,7 +50,8 @@ const options = {
     maxRetries: 100,
 	debug: process.env.DEBUG || false
 };
-const ws = new ReconnectingWebSocket('ws://sim.smogon.com:80/showdown/websocket', [], options);
+
+const ws = new ReconnectingWebSocket('wss://sim3.psim.us/showdown/websocket', [], options);
 const numOfBattles = parseArgument();
 let numOfBattlesCounter = 0;
 const username = process.env.SHOWDOWNNAME;
